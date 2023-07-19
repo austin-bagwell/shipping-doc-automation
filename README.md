@@ -1,12 +1,25 @@
-Mission
-Parse a CSV file, sending fetch() requests to ODFL's API to schedule a pickup, create a BOL and shipping labels, and send PDFs of those shipping documents to an email and/or add them to a Google Calendar event if I can sort out how to actually connect them. Maybe just have a script that stores them in Drive too?
+# Project Goals
 
-Frontend
+Schedule pickups and create BOLs/shipping labels by parsing a CSV file and POSTing the parsed data to ODFL's API. The CSV will be generated from a Netsuite export.
 
-React TS
-Chakra UI components
-csv-parse
+Initial user interface will be CLI-based. Users will input the path to a local CSV file and the application will parse that file, handle HTTP requests, and write results and/or errors to the CLI.
 
-Backend ?
-might be helpful to cache some things (addresses etc.)
-but to start with I think I can safely just store that in memory ie hardcode those few addresses I need for ship-from, consignee, etc
+The eventual goal is to make this a full stack application with a basic UI created with React, Node backend, and Postgres database (in Docker) for storing address information.
+
+## Frontend
+
+The initial plan is to KISS and have no front end. The app will request the path to a .csv file from the CLI and then do all its magic from there.
+
+After I get the actual functionality up and running, I plan to create a basic front end that allows file upload and provides better visibility to shipment info, possible errors, etc.
+
+That front end will use the following libraries/frameworks:
+
+- React TS
+- Chakra UI
+
+## Backend
+
+Everything is going to be running in Node to begin with. Eventually, I want to add support for the following:
+
+- Docker
+- PostgreSQL
