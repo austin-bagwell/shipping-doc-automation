@@ -11,10 +11,14 @@ export async function getSessionToken() {
 
   try {
     const res = await fetch(url, { headers });
-    const json = await res.json();
-    console.log(json);
+    const json: ODGetSessionToken200ResponseJson = await res.json();
     return json;
   } catch (err) {
     console.log(err);
   }
+}
+
+interface ODGetSessionToken200ResponseJson {
+  sessionToken: string;
+  expiration: number;
 }
