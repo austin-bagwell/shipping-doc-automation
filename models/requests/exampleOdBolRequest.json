@@ -1,0 +1,112 @@
+{
+  "addresses": [
+    {
+      "addressLine1": "812 Mallard Ave",
+      "addressName": "Counter Culture Coffee",
+      "addressType": "shipper",
+      "city": "Durham",
+      "country": "USA",
+      "state": "NC",
+      "zipcode": "27701"
+    },
+    {
+      "addressLine1": "218 Fleming Dr",
+      "addressName": "Austin's House",
+      "addressType": "consignee",
+      "attention": "Austin",
+      "city": "Durham",
+      "country": "USA",
+      "state": "NC",
+      "zipcode": "27712",
+      "phoneNumber": "0005551212"
+    },
+    {
+      "addressLine1": "812 Mallard Ave",
+      "addressName": "Counter Culture Coffee",
+      "addressType": "billTo",
+      "attention": "Accounting",
+      "city": "Durham",
+      "country": "USA",
+      "state": "NC",
+      "zipcode": "27701",
+      "phoneNumber": "0005551212"
+    }
+  ],
+  "descriptionDetails": [
+    {
+      "description": "string",
+      "freightClass": "150",
+      "hazmatCheck": true,
+      "individualPieceType": "DRUM",
+      "individualPieces": 2,
+      "nmfc": "",
+      "nmfcSub": "",
+      "pieces": 2,
+      "weight": 1000
+    }
+  ],
+  "handlingUnitDetails": [],
+  "referenceNumbers": [
+    {
+      "pieceCount": 0,
+      "referenceNumber": "string",
+      "referenceType": "PPID"
+    },
+    {
+      "pieceCount": 0,
+      "referenceNumber": "string",
+      "referenceType": "BOL"
+    },
+    {
+      "pieceCount": 7,
+      "referenceNumber": "string",
+      "referenceType": "PO"
+    },
+    {
+      "pieceCount": 0,
+      "referenceNumber": "string",
+      "referenceType": "PKU"
+    },
+    {
+      "pieceCount": 0,
+      "referenceNumber": "string",
+      "referenceType": "LOAD"
+    }
+  ],
+  "shipmentServices": [
+    {
+      "serviceCode": "CSD",
+      "serviceDescription": "Construction Site Delivery"
+    }
+  ],
+  "tradeShows": [
+    {
+      "service": "Pickup",
+      "show": "string",
+      "booth": "string",
+      "contractor": "string",
+      "exhibitor": "string"
+    }
+  ],
+  "freightTerms": "PREPAID",
+  "pickupDate": "2023-02-15",
+  "handlingUnitCount": 30,
+  "handlingUnitType": "SKID",
+  "skidWeight": 500,
+  "grossTotalWeight": 2500,
+  "netTotalWeight": 2000,
+  "cargoLiability": 0,
+  "hazmatContactName": "string",
+  "hazmatContactPhoneNumber": "0005551212",
+  "hazmatContractNumber": "string",
+  "deliveryBeginDate": "2023-02-17T08:00:00.000Z",
+  "deliveryEndDate": "2023-02-18T08:00:00.000Z ",
+  "cubicFeet": 0,
+  "specialInstructionsDelivery": "string",
+  "specialInstructionsPickup": "string",
+  "customer": "string",
+  "integrationCustomer": "string",
+  "thirdPartyLogistics": "string",
+  "transportationManagementSystem": "string",
+  "email": ""
+}
