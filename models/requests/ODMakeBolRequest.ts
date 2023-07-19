@@ -1,10 +1,54 @@
-import { AddressInformation } from "./BasePathParams";
+import { AddressFields } from "../AddressFields";
+
+// goal: interface accounts for all fields expected in ./exampleOdBolRequest.json
+export interface ReqMakeBol {
+  addresses: Array<AddressFields>;
+  descriptionDetails: Array<DescriptionDetails>;
+  //   TODO make interface
+  handlingUnitDetails: Array<any>;
+  referenceNumbers: Array<ReferenceNumbers>;
+  shipmentServices: Array<ShipmentServices>;
+  proNumber: number | null;
+  freightTerms: string;
+  pickupDate: string;
+  handlingUnitCount: number;
+  handlingUnitType: HandlingUnitTypes;
+  skidWeight: number;
+  grossTotalWeight: number;
+  netTotalWeight: number;
+  cargoLiability?: number;
+  hazmatContactName?: string;
+  hazmatContactPhoneNumber?: string;
+  hazmatContractNumber?: string;
+  //   TODO dateString type
+  //   "2023-02-17T08:00:00.000Z"
+  deliveryBeginDate: string;
+  deliveryEndDate: string;
+  cubicFeet: number;
+  specialInstructionsDelivery?: string;
+  specialInstructionsPickup?: string;
+  customer: string;
+  integrationCustomer?: string;
+  thirdPartyLogistics?: string;
+  transportationManagementSystem?: string;
+  email: string;
+}
+
+export interface MakeBOLRequestQueryParams {
+  generatePro?: boolean | null;
+  generateBol?: boolean | null;
+  generateLabel?: boolean | null;
+  emailBol?: boolean | null;
+  emailLabel?: boolean | null;
+  modifyBol?: boolean | null;
+  dpi?: number | null;
+}
 
 interface DescriptionDetails {
   description: string;
   freightClass: string;
   hazmatCheck: boolean;
-  individualPieceType: string;
+  individualPieceType: IndividualPieceTypes;
   individualPieces: number;
   nmfc: string;
   nmfcSub: string;
@@ -12,46 +56,37 @@ interface DescriptionDetails {
   weight: number;
 }
 
+enum IndividualPieceTypes {
+  CASE = "CASE",
+  SKID = "SKID",
+}
+
+enum ReferenceTypes {
+  CPH = "CPH",
+  BOL = "BOL",
+  LOAD = "LOAD",
+  PO = "PO",
+}
+
 interface ReferenceNumbers {
   pieceCount: number;
   referenceNumber: string;
-  referenceType: string;
+  referenceType: ReferenceTypes;
 }
 
-export interface BOLRequest {
-  addresses: Array<AddressInformation>;
-  descriptionDetails: Array<DescriptionDetails>;
-  //   TODO make interface
-  handlingUnitDetails: Array<any>;
-  referenceNumbers: Array<ReferenceNumbers>;
-  //   TODO make interface
-  shipmentServices: Array<any>;
-  //   TODO make interface
-  tradeShows?: Array<any>;
-  proNumber: number;
-  freightTerms: string;
-  pickupDate: string;
-  handlingUnitCount: number;
-  handlingUnitType: string;
-  skidWeight: number;
-  grossTotalWeight: number;
-  netTotalWeight: number;
-  cargoLiability: number;
-  hazmatContactName: string;
-  hazmatContactPhoneNumber: string;
-  hazmatContractNumber: string;
-  //   TODO dateString type
-  //   "2023-02-17T08:00:00.000Z"
-  deliveryBeginDate: string;
-  deliveryEndDate: string;
-  cubicFeet: number;
-  specialInstructionsDelivery: string;
-  specialInstructionsPickup: string;
-  customer: string;
-  integrationCustomer: string;
-  thirdPartyLogistics: string;
-  transportationManagementSystem: string;
-  email: string;
+// only grabbing the one I actually use
+// CA = call for appointment
+enum ServiceCodes {
+  CA = "CA",
+}
+
+interface ShipmentServices {
+  serviceCode: ServiceCodes;
+  serviceDescription?: string | null;
+}
+
+enum HandlingUnitTypes {
+  SKID = "SKID",
 }
 
 const exampleBolRequest = {
