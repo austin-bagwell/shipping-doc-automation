@@ -1,0 +1,11 @@
+{
+  "name": "ltl-automation",
+  "version": "1.0.0",
+  "description": "Mission Parse a CSV file, sending fetch() requests to ODFL's API to schedule a pickup, create a BOL and shipping labels, and send PDFs of those shipping documents to an email and/or add them to a Google Calendar event if I can sort out how to actually connect them. Maybe just have a script that stores them in Drive too?",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
