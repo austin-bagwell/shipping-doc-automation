@@ -56,12 +56,12 @@ interface DescriptionDetails {
   weight: number;
 }
 
-enum IndividualPieceTypes {
+export enum IndividualPieceTypes {
   CASE = "CASE",
   SKID = "SKID",
 }
 
-enum ReferenceTypes {
+export enum ReferenceTypes {
   CPH = "CPH",
   BOL = "BOL",
   LOAD = "LOAD",
@@ -76,7 +76,7 @@ interface ReferenceNumbers {
 
 // only grabbing the one I actually use
 // CA = call for appointment
-enum ServiceCodes {
+export enum ServiceCodes {
   CA = "CA",
 }
 
@@ -85,7 +85,7 @@ interface ShipmentServices {
   serviceDescription?: string | null;
 }
 
-enum HandlingUnitTypes {
+export enum HandlingUnitTypes {
   SKID = "SKID",
 }
 
