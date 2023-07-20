@@ -1,4 +1,4 @@
-enum AddressTypes {
+export enum AddressTypes {
   billTo = "billTo",
   broker = "broker",
   consignee = "consignee",
