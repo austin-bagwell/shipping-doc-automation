@@ -29,7 +29,7 @@ const cccDurhamWarehouseAddress: AddressFields = {
   phoneNumber: "9193615282",
 };
 
-export const dummyConsigneeAddress: AddressFields = {
+const dummyConsigneeAddress: AddressFields = {
   addressLine1: "123 Test Lane",
   addressName: "Testy McTesterson",
   addressType: AddressTypes.consignee,
@@ -40,7 +40,7 @@ export const dummyConsigneeAddress: AddressFields = {
   phoneNumber: "5553615282",
 };
 
-const dummyMakeBolData: ReqMakeBol = {
+export const dummyMakeBolData: ReqMakeBol = {
   addresses: [
     cccBillToAddress,
     cccDurhamWarehouseAddress,
