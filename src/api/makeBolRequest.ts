@@ -1,12 +1,18 @@
-import { ReqMakeBol } from "../models/requests/ODMakeBolRequest";
-
-// const bodyData: ReqMakeBol = {
-//     addresses: [
-//     ]
-// }
+import { dummyMakeBolData } from "./dummyBolData";
 
 // TODO
 // add handling for url params
+
+// getting this error as of 6:37 7/19
+// had it in Postman earlier but can't remember what i did to fix it
+
+// {
+//   timestamp: '2023-07-20T00:37:00.285+00:00',
+//   status: 415,
+//   error: 'Unsupported Media Type',
+//   path: '/bol-request'
+// }
+
 export async function makeBolRequest() {
   const params = "?";
   const url =
@@ -18,11 +24,10 @@ export async function makeBolRequest() {
   headers.set("Authorization", bearer);
 
   try {
-    // TODO
-    // yes that is a hideous inline comment sry
     const res = await fetch(url, {
       method: "POST",
-      headers /*body: JSON.stringify(bodyData)*/,
+      headers,
+      body: JSON.stringify(dummyMakeBolData),
     });
     // console.log(res);
     const json = await res.json();
