@@ -14,7 +14,7 @@ import { dummyMakeBolData } from "./dummyBolData";
 // }
 
 export async function makeBolRequest() {
-  const params = "?";
+  const params = "?/generatePro=true";
   const url =
     process.env.ODFL_TEST_API_ROOT + "/BOL/v3.1/eBOL/bol-request" + params;
   const bearer = "Bearer " + process.env.ODFL_SESSION_TOKEN;
@@ -22,6 +22,7 @@ export async function makeBolRequest() {
   const headers = new Headers();
 
   headers.set("Authorization", bearer);
+  headers.set("Content-Type", "application/json");
 
   try {
     const res = await fetch(url, {
