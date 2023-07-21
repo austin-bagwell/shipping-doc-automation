@@ -1,4 +1,4 @@
-import { dummyMakeBolData } from "./dummyBolData";
+import { dummyMakeBolData } from "../data/dummyBolData";
 
 // TODO
 // add handling for url params
