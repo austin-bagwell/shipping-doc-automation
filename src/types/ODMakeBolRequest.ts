@@ -1,7 +1,7 @@
 import { AddressFields } from "./AddressFields";
 
 // goal: interface accounts for all fields expected in ./exampleOdBolRequest.json
-export interface ReqMakeBol {
+export interface ODMakeBolRequest {
   addresses: Array<AddressFields>;
   descriptionDetails: Array<DescriptionDetails>;
   //   TODO make interface

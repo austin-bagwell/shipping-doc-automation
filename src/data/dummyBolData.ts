@@ -1,6 +1,6 @@
 import { AddressFields, AddressTypes } from "../types/AddressFields";
 import {
-  ReqMakeBol,
+  ODMakeBolRequest,
   IndividualPieceTypes,
   ReferenceTypes,
   ServiceCodes,
@@ -40,7 +40,7 @@ const dummyConsigneeAddress: AddressFields = {
   phoneNumber: "5553615282",
 };
 
-export const dummyMakeBolData: ReqMakeBol = {
+export const dummyMakeBolData: ODMakeBolRequest = {
   addresses: [
     cccBillToAddress,
     cccDurhamWarehouseAddress,
