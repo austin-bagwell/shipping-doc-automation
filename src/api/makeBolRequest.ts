@@ -1,4 +1,5 @@
 import { dummyMakeBolData } from "../data/dummyBolData";
+import { ODMakeBol200Response } from "../types/ODMakeBol200Response";
 
 // TODO
 // add handling for url params
@@ -14,7 +15,7 @@ import { dummyMakeBolData } from "../data/dummyBolData";
 // }
 
 // defaults to generate a new proNumber in the response
-export async function makeBolRequest() {
+export async function makeBolRequest(): Promise<ODMakeBol200Response> {
   const params =
     "?generatePro=true&generateBol=true&generateLabel=true&emailBol=true&emailLabel=true";
   const url =
@@ -26,17 +27,12 @@ export async function makeBolRequest() {
   headers.set("Authorization", bearer);
   headers.set("Content-Type", "application/json");
 
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(dummyMakeBolData),
-    });
-    // console.log(res);
-    const json = await res.json();
-    console.log(json);
-    return json;
-  } catch (err) {
-    console.log(err);
-  }
+  const res = await fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(dummyMakeBolData),
+  });
+
+  const json = await res.json();
+  return json;
 }
