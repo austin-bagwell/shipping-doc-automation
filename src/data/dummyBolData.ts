@@ -14,7 +14,7 @@ const cccBillToAddress: AddressFields = {
   city: "Durham",
   state: "NC",
   zipcode: "27701",
-  country: "US",
+  country: "USA",
   phoneNumber: "9193615282",
 };
 
@@ -25,7 +25,7 @@ const cccDurhamWarehouseAddress: AddressFields = {
   city: "Durham",
   state: "NC",
   zipcode: "27701",
-  country: "US",
+  country: "USA",
   phoneNumber: "9193615282",
 };
 
@@ -36,7 +36,7 @@ const dummyConsigneeAddress: AddressFields = {
   city: "Durham",
   state: "NC",
   zipcode: "27701",
-  country: "US",
+  country: "USA",
   phoneNumber: "5553615282",
 };
 
@@ -85,8 +85,9 @@ export const dummyMakeBolData: ODMakeBolRequest = {
   hazmatContactName: "string",
   hazmatContactPhoneNumber: "0005551212",
   hazmatContractNumber: "string",
+  deliveryDateType: "Deliver By Date",
   deliveryBeginDate: "2023-02-17T08:00:00.000Z",
-  deliveryEndDate: "2023-02-18T08:00:00.000Z ",
+  // deliveryEndDate: "2023-02-18T08:00:00.000Z ",
   cubicFeet: 0,
   specialInstructionsDelivery: "string",
   specialInstructionsPickup: "string",
@@ -94,5 +95,6 @@ export const dummyMakeBolData: ODMakeBolRequest = {
   integrationCustomer: "string",
   thirdPartyLogistics: "string",
   transportationManagementSystem: "string",
-  email: "",
+  email: "myemaill@workemail.com",
+  cc: ["myemail@gmail.com"],
 };

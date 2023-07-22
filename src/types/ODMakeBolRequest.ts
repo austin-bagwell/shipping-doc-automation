@@ -22,8 +22,9 @@ export interface ODMakeBolRequest {
   hazmatContractNumber?: string;
   //   TODO dateString type
   //   "2023-02-17T08:00:00.000Z"
+  deliveryDateType: string;
   deliveryBeginDate: string;
-  deliveryEndDate: string;
+  deliveryEndDate?: string;
   cubicFeet: number;
   specialInstructionsDelivery?: string;
   specialInstructionsPickup?: string;
@@ -32,6 +33,7 @@ export interface ODMakeBolRequest {
   thirdPartyLogistics?: string;
   transportationManagementSystem?: string;
   email: string;
+  cc: Array<string>;
 }
 
 export interface MakeBOLRequestQueryParams {
