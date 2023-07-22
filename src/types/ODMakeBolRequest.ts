@@ -1,4 +1,4 @@
-import { AddressFields } from "../AddressFields";
+import { AddressFields } from "./AddressFields";
 
 // goal: interface accounts for all fields expected in ./exampleOdBolRequest.json
 export interface ReqMakeBol {
@@ -8,7 +8,7 @@ export interface ReqMakeBol {
   handlingUnitDetails: Array<any>;
   referenceNumbers: Array<ReferenceNumbers>;
   shipmentServices: Array<ShipmentServices>;
-  proNumber: number | null;
+  proNumber?: number | null;
   freightTerms: string;
   pickupDate: string;
   handlingUnitCount: number;

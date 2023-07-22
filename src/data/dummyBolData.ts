@@ -73,7 +73,7 @@ export const dummyMakeBolData: ReqMakeBol = {
       serviceDescription: "Call for appointment",
     },
   ],
-  proNumber: 923456788,
+  // proNumber: 923456788,
   freightTerms: "PREPAID",
   pickupDate: "2023-02-15",
   handlingUnitCount: 30,

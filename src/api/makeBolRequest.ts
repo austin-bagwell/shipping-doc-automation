@@ -13,8 +13,9 @@ import { dummyMakeBolData } from "../data/dummyBolData";
 //   path: '/bol-request'
 // }
 
+// defaults to generate a new proNumber in the response
 export async function makeBolRequest() {
-  const params = "?/generatePro=true";
+  const params = "?generatePro=true&generateBol=true&generateLabel=true";
   const url =
     process.env.ODFL_TEST_API_ROOT + "/BOL/v3.1/eBOL/bol-request" + params;
   const bearer = "Bearer " + process.env.ODFL_SESSION_TOKEN;
