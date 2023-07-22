@@ -10,6 +10,15 @@ async function main() {
   try {
     const newBolRequest = await makeBolRequest();
     console.log(newBolRequest);
+
+    /*
+      const pathToCsv = rl.question("enter path to csv")
+      const shipments = await parseShipmentInfo(pathToCsv)
+      shipments.map(async (shipment) => {
+        const response = await makeBolRequest(shipment)
+        await cacheResponse(response)
+    })
+    */
   } catch (err) {
     console.log(err);
   }
