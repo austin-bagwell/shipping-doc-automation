@@ -1,5 +1,6 @@
 import { dummyMakeBolData } from "../data/dummyBolData";
 import { ODMakeBol200Response } from "../types/ODMakeBol200Response";
+import { ODMakeBol400Response } from "../types/ODMakeBol400Response";
 
 // TODO
 // add handling for url params
@@ -15,11 +16,13 @@ import { ODMakeBol200Response } from "../types/ODMakeBol200Response";
 // }
 
 // defaults to generate a new proNumber in the response
-export async function makeBolRequest(): Promise<ODMakeBol200Response> {
+export async function makeBolRequest(): Promise<
+  ODMakeBol200Response | ODMakeBol400Response | any
+> {
   const params =
     "?generatePro=true&generateBol=true&generateLabel=true&emailBol=true&emailLabel=true";
   const url =
-    process.env.ODFL_TEST_API_ROOT + "/BOL/v3.1/eBOL/bol-request" + params;
+    process.env.ODFL_TEST_API_ROOT + "/BOL/v3.1/eBOL/bol-reques" + params;
   const bearer = "Bearer " + process.env.ODFL_SESSION_TOKEN;
 
   const headers = new Headers();
@@ -32,6 +35,13 @@ export async function makeBolRequest(): Promise<ODMakeBol200Response> {
     headers,
     body: JSON.stringify(dummyMakeBolData),
   });
+
+  if (res.status >= 400) {
+    const errors = res.json();
+    console.log("Errors caught in makeBolRequest");
+
+    return errors;
+  }
 
   const json = await res.json();
   return json;
