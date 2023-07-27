@@ -22,9 +22,9 @@ async function main() {
       console.log(response);
     }
 
-    // console.log(
-    //   `Request worked:  \nPRO#${response.proNumber?.toString()} created.`
-    // );
+    console.log(
+      `Request worked:  \nPRO#${response.proNumber?.toString()} created.`
+    );
     return response;
 
     /*
