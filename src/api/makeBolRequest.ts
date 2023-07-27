@@ -22,7 +22,7 @@ export async function makeBolRequest(): Promise<
   const params =
     "?generatePro=true&generateBol=true&generateLabel=true&emailBol=true&emailLabel=true";
   const url =
-    process.env.ODFL_TEST_API_ROOT + "/BOL/v3.1/eBOL/bol-reques" + params;
+    process.env.ODFL_TEST_API_ROOT + "/BOL/v3.1/eBOL/bol-request" + params;
   const bearer = "Bearer " + process.env.ODFL_SESSION_TOKEN;
 
   const headers = new Headers();
