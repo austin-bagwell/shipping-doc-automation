@@ -23,3 +23,5 @@ Everything is going to be running in Node to begin with. Eventually, I want to a
 
 - Docker
 - PostgreSQL
+
+These will support basic CRUD operations to persist and store data for later use. Namely, storing addresses and shipping info.
