@@ -1,30 +1,35 @@
 import dotenv from "dotenv";
 import * as readline from "readline";
 
+import { getSessionToken } from "./src/api/getSessionToken";
 import { makeBolRequest } from "./src/api/makeBolRequest";
+import { postPickupRequest } from "./src/api/postPickupRequest";
 import { ODMakeBol400Response } from "./src/types/ODMakeBol400Response";
 import { ODMakeBol200Response } from "./src/types/ODMakeBol200Response";
-import { json } from "stream/consumers";
 dotenv.config();
 
-console.log("running makeBolRequest()...");
+// console.log("running makeBolRequest()...");
+console.log("running postPickupRequest()...");
 
 type ODResponses = ODMakeBol200Response | ODMakeBol400Response | any;
 
 async function main() {
   try {
-    const response = await makeBolRequest();
+    // const response = await makeBolRequest();
+    const response = await postPickupRequest();
+    // const response = await getSessionToken();
 
-    if (!response.success) {
-      //   const errors: ODMakeBol400Response = handleError(response);
-      //   const err = await handleError(errors);
-      //   throw new Error(err);
-      console.log(response);
-    }
+    // if (!response.success) {
+    //   const errors: ODMakeBol400Response = handleError(response);
+    //   const err = await handleError(errors);
+    //   throw new Error(err);
+    // console.log(response);
+    // }
 
-    console.log(
-      `Request worked:  \nPRO#${response.proNumber?.toString()} created.`
-    );
+    // console.log(
+    //   `Request worked:  \nPRO#${response.proNumber?.toString()} created.`
+    // );
+    console.log(response);
     return response;
 
     /*
