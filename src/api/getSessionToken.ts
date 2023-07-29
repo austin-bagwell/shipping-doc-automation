@@ -9,6 +9,33 @@ interface ODgetODSessionToken200ResponseJson {
   sessionToken: string;
   expiration: number;
 }
+
+export async function getFreshSessionToken(carrier: string) {
+  switch (carrier.toUpperCase()) {
+    case "ODFL":
+      return freshenODSessionToken();
+    default:
+      console.log("getFreshSessionToken default");
+      break;
+  }
+}
+
+async function freshenODSessionToken() {
+  let token;
+  const existingTokenExpiration = process.env.ODFL_SESSION_TOKEN_EXPIRY;
+  if (
+    existingTokenExpiration &&
+    Number.parseInt(existingTokenExpiration) * 1000 < new Date().getTime()
+  ) {
+    console.log("getODSessionTokenExiration true in makeBol");
+    const freshToken = await refreshToken("ODFL");
+    token = freshToken?.sessionToken;
+  } else {
+    token = process.env.ODFL_SESSION_TOKEN;
+  }
+  return token;
+}
+
 // TODO
 // add handling for multiple carriers
 export async function getODSessionToken() {
