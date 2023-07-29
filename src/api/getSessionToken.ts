@@ -37,20 +37,18 @@ export async function refreshToken(carrier: string) {
     const expiration = await getSessionTokenExpiration(carrier);
     const now = new Date().getTime();
 
-    console.log("getSessionToken:");
-    console.log(`expiration: ${expiration}`);
-    console.log(`now: ${now}`);
-
     if (expiration && expiration * 1000 < now) {
       console.log(`old token is expired`);
+      console.log(`creating new token...`);
       const newToken = await getSessionToken();
-      // await setTokenEnvironmentVariable(carrier);
+
       // TODO
+      // await setTokenEnvironmentVariable(carrier);
       // overwriting specific bit of .env file without overwriting everything
       // await fs.writeFile(.env, overwrite old token/expiry)
       return newToken;
     } else {
-      console.log("token not expired I guess");
+      console.log("token not expired");
       return null;
     }
   } catch (err) {

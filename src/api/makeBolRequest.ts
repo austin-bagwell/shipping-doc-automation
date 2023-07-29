@@ -25,22 +25,20 @@ export async function makeBolRequest(): Promise<
   const url =
     process.env.ODFL_TEST_API_ROOT + "/BOL/v3.1/eBOL/bol-request" + params;
 
-  // const token = (await refreshToken("ODFL")) || process.env.ODFL_SESSION_TOKEN;
-  // console.log(`token from bolReq > refreshToken: `);
-  // console.log(token);
   let token;
   const existingTokenExpiration = process.env.ODFL_SESSION_TOKEN_EXPIRY;
-
-  if ((await getSessionTokenExpiration("ODFL")) < new Date().getTime()) {
+  if (
+    existingTokenExpiration &&
+    Number.parseInt(existingTokenExpiration) * 1000 < new Date().getTime()
+  ) {
     console.log("getSessionTokenExiration true in makeBol");
     const freshToken = await refreshToken("ODFL");
     token = freshToken?.sessionToken;
   } else {
-    token = process.env.ODFL_SESSION_TOKEN_EXPIRY;
+    token = process.env.ODFL_SESSION_TOKEN;
   }
 
   const bearerToken = "Bearer " + token;
-
   const headers = new Headers();
 
   headers.set("Authorization", bearerToken);
@@ -52,14 +50,16 @@ export async function makeBolRequest(): Promise<
     body: JSON.stringify(dummyMakeBolData),
   });
 
+  // TODO
+  // error handling based on err response code?
   if (res.status >= 400) {
-    const errors = res.json();
-    console.log("Errors caught in makeBolRequest");
+    const errors = await res.json();
+    console.log("Errors in makeBolRequest");
     console.log(errors);
-
     return errors;
   }
 
   const json = await res.json();
+
   return json;
 }
