@@ -16,7 +16,7 @@ type ODResponses = ODMakeBol200Response | ODMakeBol400Response | any;
 
 async function main() {
   try {
-    await refreshToken();
+    await refreshToken("ODFL");
     // const response = await makeBolRequest();
     // const response = await postPickupRequest();
     // const response = await getSessionToken();

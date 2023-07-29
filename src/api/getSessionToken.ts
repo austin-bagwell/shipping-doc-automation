@@ -26,18 +26,21 @@ interface ODGetSessionToken200ResponseJson {
 }
 
 // write/overwrite new token+expiry into .env for now, use db later
-export async function refreshToken() {
+export async function refreshToken(carrier: string) {
   try {
-    const expiry = await getSessionTokenExpiration("ODFL");
-    console.log(expiry);
+    const expiration = await getSessionTokenExpiration(carrier);
+    const now = new Date().getTime();
+
+    if (expiration && expiration < now) {
+      console.log(`token is expired`);
+      /*
+      const newToken = await getSessionToken(carrier)
+      await fs.writeFile(.env, overwrite old token/expiry)
+      */
+    }
   } catch (err) {
     console.log(err);
   }
-  // let newToken;
-  // get value of existingToken exire
-  // if now > existingExpire (plus or minus 10 minutes or something?)
-  // token = getSessionToken();
-  // return token;;
 }
 
 // TODO
@@ -45,7 +48,7 @@ export async function refreshToken() {
 // only hanldes OD now but could be easily modded to get tokens based on carrier SCAC or whatevs
 export async function getSessionTokenExpiration(
   carrier: string = "odfl"
-): Promise<string | void> {
+): Promise<number | undefined> {
   const path = "/Users/austin/projects/ltl-automation/.env";
 
   const environmentVariables = await fs.readFile(path, {
@@ -67,11 +70,11 @@ export async function getSessionTokenExpiration(
     .filter((t) => t?.key.toUpperCase().includes("EXPIRY"))[0]?.value;
 
   if (expiration) {
-    return expiration;
+    return Number.parseInt(expiration);
   } else {
+    // threw new Error('see error msg below')
     console.log(
       `sorry boss the crappy code didn't find the expiration time for carrier '${carrier}'`
     );
   }
-  return expiration;
 }
