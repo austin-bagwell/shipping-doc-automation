@@ -2,8 +2,8 @@ import dotenv from "dotenv";
 import * as readline from "readline";
 
 import {
-  getSessionToken,
-  getSessionTokenExpiration,
+  getODSessionToken,
+  getODSessionTokenExpiration,
   refreshToken,
 } from "./src/api/getSessionToken";
 import { makeBolRequest } from "./src/api/makeBolRequest";

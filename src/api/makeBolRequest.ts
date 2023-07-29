@@ -1,7 +1,7 @@
 import { dummyMakeBolData } from "../data/dummyBolData";
 import { ODMakeBol200Response } from "../types/ODMakeBol200Response";
 import { ODMakeBol400Response } from "../types/ODMakeBol400Response";
-import { refreshToken, getSessionTokenExpiration } from "./getSessionToken";
+import { refreshToken, getODSessionTokenExpiration } from "./getSessionToken";
 
 // TODO
 // add handling for url params
@@ -31,7 +31,7 @@ export async function makeBolRequest(): Promise<
     existingTokenExpiration &&
     Number.parseInt(existingTokenExpiration) * 1000 < new Date().getTime()
   ) {
-    console.log("getSessionTokenExiration true in makeBol");
+    console.log("getODSessionTokenExiration true in makeBol");
     const freshToken = await refreshToken("ODFL");
     token = freshToken?.sessionToken;
   } else {

@@ -5,13 +5,13 @@ interface EnvironmentVariable {
   value: string;
 }
 
-interface ODGetSessionToken200ResponseJson {
+interface ODgetODSessionToken200ResponseJson {
   sessionToken: string;
   expiration: number;
 }
 // TODO
 // add handling for multiple carriers
-export async function getSessionToken() {
+export async function getODSessionToken() {
   const url = process.env.ODFL_TEST_API_ROOT + "/auth/v1.0/token";
   const username = process.env.ODFL_USER;
   const password = process.env.ODFL_PW;
@@ -24,7 +24,7 @@ export async function getSessionToken() {
 
   try {
     const res = await fetch(url, { headers });
-    const json: ODGetSessionToken200ResponseJson = await res.json();
+    const json: ODgetODSessionToken200ResponseJson = await res.json();
     return json;
   } catch (err) {
     console.log(err);
@@ -34,13 +34,13 @@ export async function getSessionToken() {
 // write/overwrite new token+expiry into .env for now, use db later
 export async function refreshToken(carrier: string) {
   try {
-    const expiration = await getSessionTokenExpiration(carrier);
+    const expiration = await getODSessionTokenExpiration(carrier);
     const now = new Date().getTime();
 
     if (expiration && expiration * 1000 < now) {
       console.log(`old token is expired`);
       console.log(`creating new token...`);
-      const newToken = await getSessionToken();
+      const newToken = await getODSessionToken();
 
       // TODO
       // await setTokenEnvironmentVariable(carrier);
@@ -59,7 +59,7 @@ export async function refreshToken(carrier: string) {
 // TODO
 // fix path to use __dirname or something equally elegant
 // only hanldes OD now but could be easily modded to get tokens based on carrier SCAC or whatevs
-export async function getSessionTokenExpiration(
+export async function getODSessionTokenExpiration(
   carrier: string = "odfl"
 ): Promise<number> {
   const environment = await getEnvironmentVariables();
