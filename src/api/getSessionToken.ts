@@ -37,7 +37,11 @@ export async function refreshToken(carrier: string) {
     const expiration = await getSessionTokenExpiration(carrier);
     const now = new Date().getTime();
 
-    if (expiration && expiration < now) {
+    console.log("getSessionToken:");
+    console.log(`expiration: ${expiration}`);
+    console.log(`now: ${now}`);
+
+    if (expiration && expiration * 1000 < now) {
       console.log(`old token is expired`);
       const newToken = await getSessionToken();
       // await setTokenEnvironmentVariable(carrier);
@@ -46,7 +50,7 @@ export async function refreshToken(carrier: string) {
       // await fs.writeFile(.env, overwrite old token/expiry)
       return newToken;
     } else {
-      console.log("not expired I guess");
+      console.log("token not expired I guess");
       return null;
     }
   } catch (err) {
@@ -88,6 +92,7 @@ export async function getSessionTokenExpiration(
   }
 }
 
+// TODO move to /utils
 async function getEnvironmentVariables(): Promise<Array<EnvironmentVariable>> {
   const path = "/Users/austin/projects/ltl-automation/.env";
   const envFile = await fs.readFile(path, {

@@ -16,23 +16,20 @@ type ODResponses = ODMakeBol200Response | ODMakeBol400Response | any;
 
 async function main() {
   try {
-    await refreshToken("ODFL");
-    // const response = await makeBolRequest();
-    // const response = await postPickupRequest();
-    // const response = await getSessionToken();
-    // if (!response.success) {
-    //   const errors: ODMakeBol400Response = handleError(response);
-    //   const err = await handleError(errors);
-    //   throw new Error(err);
-    // console.log(response);
-    // }
-    // console.log(
-    //   `Request worked:  \nPRO#${response.proNumber?.toString()} created.`
-    // );
-    // console.log(response);
+    const response = await makeBolRequest();
+
+    if (!response.success) {
+      // const errors: ODMakeBol400Response = handleError(response);
+      // const err = await handleError(errors);
+      console.log("request failed: ");
+      console.log(response);
+    }
+
+    console.log(
+      `Request worked:  \nPRO#${response.proNumber?.toString()} created.`
+    );
     // return response;
-    // const now = new Date().getTime();
-    // console.log(now);
+
     /*
     const pathToCsv = rl.question("enter path to csv")
     const shipments = await parseShipmentInfo(pathToCsv)

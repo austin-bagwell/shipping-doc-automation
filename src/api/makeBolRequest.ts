@@ -1,6 +1,7 @@
 import { dummyMakeBolData } from "../data/dummyBolData";
 import { ODMakeBol200Response } from "../types/ODMakeBol200Response";
 import { ODMakeBol400Response } from "../types/ODMakeBol400Response";
+import { refreshToken, getSessionTokenExpiration } from "./getSessionToken";
 
 // TODO
 // add handling for url params
@@ -23,11 +24,26 @@ export async function makeBolRequest(): Promise<
     "?generatePro=true&generateBol=true&generateLabel=true&emailBol=true&emailLabel=true";
   const url =
     process.env.ODFL_TEST_API_ROOT + "/BOL/v3.1/eBOL/bol-request" + params;
-  const bearer = "Bearer " + process.env.ODFL_SESSION_TOKEN;
+
+  // const token = (await refreshToken("ODFL")) || process.env.ODFL_SESSION_TOKEN;
+  // console.log(`token from bolReq > refreshToken: `);
+  // console.log(token);
+  let token;
+  const existingTokenExpiration = process.env.ODFL_SESSION_TOKEN_EXPIRY;
+
+  if ((await getSessionTokenExpiration("ODFL")) < new Date().getTime()) {
+    console.log("getSessionTokenExiration true in makeBol");
+    const freshToken = await refreshToken("ODFL");
+    token = freshToken?.sessionToken;
+  } else {
+    token = process.env.ODFL_SESSION_TOKEN_EXPIRY;
+  }
+
+  const bearerToken = "Bearer " + token;
 
   const headers = new Headers();
 
-  headers.set("Authorization", bearer);
+  headers.set("Authorization", bearerToken);
   headers.set("Content-Type", "application/json");
 
   const res = await fetch(url, {
@@ -39,6 +55,7 @@ export async function makeBolRequest(): Promise<
   if (res.status >= 400) {
     const errors = res.json();
     console.log("Errors caught in makeBolRequest");
+    console.log(errors);
 
     return errors;
   }
