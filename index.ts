@@ -1,7 +1,11 @@
 import dotenv from "dotenv";
 import * as readline from "readline";
 
-import { getSessionToken } from "./src/api/getSessionToken";
+import {
+  getSessionToken,
+  getExistingToken,
+  refreshToken,
+} from "./src/api/getSessionToken";
 import { makeBolRequest } from "./src/api/makeBolRequest";
 import { postPickupRequest } from "./src/api/postPickupRequest";
 import { ODMakeBol400Response } from "./src/types/ODMakeBol400Response";
@@ -15,23 +19,23 @@ type ODResponses = ODMakeBol200Response | ODMakeBol400Response | any;
 
 async function main() {
   try {
+    refreshToken();
     // const response = await makeBolRequest();
-    const response = await postPickupRequest();
+    // const response = await postPickupRequest();
     // const response = await getSessionToken();
-
     // if (!response.success) {
     //   const errors: ODMakeBol400Response = handleError(response);
     //   const err = await handleError(errors);
     //   throw new Error(err);
     // console.log(response);
     // }
-
     // console.log(
     //   `Request worked:  \nPRO#${response.proNumber?.toString()} created.`
     // );
-    console.log(response);
-    return response;
-
+    // console.log(response);
+    // return response;
+    // const now = new Date().getTime();
+    // console.log(now);
     /*
     const pathToCsv = rl.question("enter path to csv")
     const shipments = await parseShipmentInfo(pathToCsv)
