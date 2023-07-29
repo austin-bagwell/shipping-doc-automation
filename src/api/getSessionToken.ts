@@ -1,5 +1,7 @@
 import * as fs from "fs/promises";
 
+// TODO
+// add handling for multiple carriers
 export async function getSessionToken() {
   const url = process.env.ODFL_TEST_API_ROOT + "/auth/v1.0/token";
   const username = process.env.ODFL_USER;
@@ -32,11 +34,14 @@ export async function refreshToken(carrier: string) {
     const now = new Date().getTime();
 
     if (expiration && expiration < now) {
-      console.log(`token is expired`);
-      /*
-      const newToken = await getSessionToken(carrier)
-      await fs.writeFile(.env, overwrite old token/expiry)
-      */
+      console.log(`old token is expired`);
+      const newToken = await getSessionToken();
+      console.log("newToken:");
+      console.log(newToken);
+
+      // TODO
+      // overwriting specific bit of .env file without overwriting everything
+      // await fs.writeFile(.env, overwrite old token/expiry)
     }
   } catch (err) {
     console.log(err);
