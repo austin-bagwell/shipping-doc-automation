@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from "fs/promises";
 
 export async function getSessionToken() {
   const url = process.env.ODFL_TEST_API_ROOT + "/auth/v1.0/token";
@@ -28,7 +28,7 @@ interface ODGetSessionToken200ResponseJson {
 // write/overwrite new token+expiry into .env for now, use db later
 export async function refreshToken() {
   try {
-    const expiry = await getExistingToken();
+    const expiry = await getSessionTokenExpiration("ODFL");
     console.log(expiry);
   } catch (err) {
     console.log(err);
@@ -40,50 +40,38 @@ export async function refreshToken() {
   // return token;;
 }
 
-interface AuthTokenDetails {
-  token: string;
-  expiry: number;
-}
 // TODO
-// fix path to use __dirname
+// fix path to use __dirname or something equally elegant
 // only hanldes OD now but could be easily modded to get tokens based on carrier SCAC or whatevs
-export async function getExistingToken(carrier: string = "odfl") {
-  // const path = __dirname + "/.env";
+export async function getSessionTokenExpiration(
+  carrier: string = "odfl"
+): Promise<string | void> {
   const path = "/Users/austin/projects/ltl-automation/.env";
 
-  const expiry = fs.readFile(
-    path,
-    {
-      encoding: "utf8",
-    },
-    (err, data) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
+  const environmentVariables = await fs.readFile(path, {
+    encoding: "utf8",
+  });
 
-      const keyValues = data.split("\n").map((variable) => {
-        const key = variable.split("=")[0];
-        const value = variable.split("=")[1];
+  // truly disgusting I am sorry
+  const expiration = environmentVariables
+    .split("\n")
+    .map((variable) => {
+      const key = variable.split("=")[0];
+      const value = variable.split("=")[1];
+
+      if (key.toUpperCase().includes("TOKEN")) {
         return { key, value };
-      });
+      }
+    })
+    .filter((sessionToken) => sessionToken?.key.includes(carrier.toUpperCase()))
+    .filter((t) => t?.key.toUpperCase().includes("EXPIRY"))[0]?.value;
 
-      const tokens = keyValues.filter((kv) => {
-        return kv.key.includes("TOKEN");
-      });
-
-      const carrierSpecificTokens = tokens.filter((token) =>
-        token.key.match(carrier.toUpperCase())
-      );
-
-      // bad, probably yes
-      // will use key.includes('EXPIRY') or something to make less stupid later
-      // const token = carrierSpecificTokens[0].value;
-      const expiry = carrierSpecificTokens[1].value;
-
-      return expiry;
-    }
-  );
-  // console.log(expiry);
-  return expiry;
+  if (expiration) {
+    return expiration;
+  } else {
+    console.log(
+      `sorry boss the crappy code didn't find the expiration time for carrier '${carrier}'`
+    );
+  }
+  return expiration;
 }

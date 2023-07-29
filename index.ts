@@ -3,7 +3,7 @@ import * as readline from "readline";
 
 import {
   getSessionToken,
-  getExistingToken,
+  getSessionTokenExpiration,
   refreshToken,
 } from "./src/api/getSessionToken";
 import { makeBolRequest } from "./src/api/makeBolRequest";
@@ -12,14 +12,11 @@ import { ODMakeBol400Response } from "./src/types/ODMakeBol400Response";
 import { ODMakeBol200Response } from "./src/types/ODMakeBol200Response";
 dotenv.config();
 
-// console.log("running makeBolRequest()...");
-console.log("running postPickupRequest()...");
-
 type ODResponses = ODMakeBol200Response | ODMakeBol400Response | any;
 
 async function main() {
   try {
-    refreshToken();
+    await refreshToken();
     // const response = await makeBolRequest();
     // const response = await postPickupRequest();
     // const response = await getSessionToken();
