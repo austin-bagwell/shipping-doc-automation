@@ -1,5 +1,14 @@
 import * as fs from "fs/promises";
 
+interface EnvironmentVariable {
+  key: string;
+  value: string;
+}
+
+interface ODGetSessionToken200ResponseJson {
+  sessionToken: string;
+  expiration: number;
+}
 // TODO
 // add handling for multiple carriers
 export async function getSessionToken() {
@@ -22,11 +31,6 @@ export async function getSessionToken() {
   }
 }
 
-interface ODGetSessionToken200ResponseJson {
-  sessionToken: string;
-  expiration: number;
-}
-
 // write/overwrite new token+expiry into .env for now, use db later
 export async function refreshToken(carrier: string) {
   try {
@@ -36,12 +40,14 @@ export async function refreshToken(carrier: string) {
     if (expiration && expiration < now) {
       console.log(`old token is expired`);
       const newToken = await getSessionToken();
-      console.log("newToken:");
-      console.log(newToken);
-
+      // await setTokenEnvironmentVariable(carrier);
       // TODO
       // overwriting specific bit of .env file without overwriting everything
       // await fs.writeFile(.env, overwrite old token/expiry)
+      return newToken;
+    } else {
+      console.log("not expired I guess");
+      return null;
     }
   } catch (err) {
     console.log(err);
@@ -53,33 +59,43 @@ export async function refreshToken(carrier: string) {
 // only hanldes OD now but could be easily modded to get tokens based on carrier SCAC or whatevs
 export async function getSessionTokenExpiration(
   carrier: string = "odfl"
-): Promise<number | undefined> {
-  const path = "/Users/austin/projects/ltl-automation/.env";
+): Promise<number> {
+  const environment = await getEnvironmentVariables();
 
-  const environmentVariables = await fs.readFile(path, {
-    encoding: "utf8",
-  });
-
-  // truly disgusting I am sorry
-  const expiration = environmentVariables
-    .split("\n")
-    .map((variable) => {
-      const key = variable.split("=")[0];
-      const value = variable.split("=")[1];
-
-      if (key.toUpperCase().includes("TOKEN")) {
-        return { key, value };
+  const expirationVariable: EnvironmentVariable = environment.filter(
+    (envVariable) => {
+      if (
+        envVariable.key.includes(carrier.toUpperCase()) &&
+        envVariable.key.includes("EXPIRY")
+      ) {
+        return true;
       }
-    })
-    .filter((sessionToken) => sessionToken?.key.includes(carrier.toUpperCase()))
-    .filter((t) => t?.key.toUpperCase().includes("EXPIRY"))[0]?.value;
+    }
+  )[0];
 
-  if (expiration) {
-    return Number.parseInt(expiration);
+  if (expirationVariable) {
+    return Number.parseInt(expirationVariable.value);
   } else {
     // threw new Error('see error msg below')
     console.log(
       `sorry boss the crappy code didn't find the expiration time for carrier '${carrier}'`
     );
+    // FIXME
+    // because I'm still figuring out TypeScript lol
+    // don't know if I should be including this as such
+    // but tsc screams at me if I don't return a number
+    return 0;
   }
+}
+
+async function getEnvironmentVariables(): Promise<Array<EnvironmentVariable>> {
+  const path = "/Users/austin/projects/ltl-automation/.env";
+  const envFile = await fs.readFile(path, {
+    encoding: "utf8",
+  });
+  const environment = envFile.split("\n").map((variable) => {
+    const [key, value] = variable.split("=");
+    return { key, value };
+  });
+  return environment;
 }
