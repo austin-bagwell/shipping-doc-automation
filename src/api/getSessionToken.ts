@@ -22,12 +22,9 @@ export async function getFreshSessionToken(carrier: string) {
 
 async function freshenODSessionToken() {
   let token;
-  const existingTokenExpiration = process.env.ODFL_SESSION_TOKEN_EXPIRY;
+  const tokenExpiration = process.env.ODFL_SESSION_TOKEN_EXPIRY;
 
-  if (
-    existingTokenExpiration &&
-    Number.parseInt(existingTokenExpiration) * 1000 < new Date().getTime()
-  ) {
+  if (tokenExpiration && isTokenExpired(tokenExpiration)) {
     console.log("getODSessionTokenExiration true in makeBol");
     const freshToken = await refreshToken("ODFL");
     token = freshToken?.sessionToken;
@@ -173,4 +170,9 @@ export async function updateTokenInEnvironment(
 
 function convertToString(environmentVar: EnvironmentVariable) {
   return `${environmentVar.key}=${environmentVar.value.toString()}`;
+}
+
+// only works for OD's implementaion, ex need to *1000
+function isTokenExpired(expiration: string) {
+  return Number.parseInt(expiration) * 1000 < new Date().getTime();
 }
