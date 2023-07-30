@@ -131,46 +131,34 @@ async function getEnvironmentVariables(): Promise<Array<EnvironmentVariable>> {
   return environment;
 }
 
+// works, but maybe smelly?
+// once again, hard coded path is not the way but hey...
 export async function updateTokenInEnvironment(
   tokenDetails: Array<EnvironmentVariable>
 ) {
   const path = "/Users/austin/projects/ltl-automation/.env";
   try {
-    const envFile = await fs.readFile(path, {
-      encoding: "utf8",
-    });
-
     const environment = await getEnvironmentVariables();
-    const tokenDetailsKeys = tokenDetails.map((token) => token.key);
 
-    // this works
-    // still need to convert all this shiz to a string
-    // and then fs.writeFile to .env
-    // shoooooo
-    const updated = tokenDetails.forEach((envVariable) => {
+    tokenDetails.forEach((envVariable) => {
       const toUpdate = environment.find((env) => {
-        // console.log("env.key");
-        // console.log(env.key);
-        // console.log("envVariable.key");
-        // console.log(envVariable.key);
         return env.key === envVariable.key;
       });
 
       const idx = environment.findIndex((env) => env.key === toUpdate?.key);
       Object.assign(environment[idx], envVariable);
     });
-    console.log(environment);
+
+    const updatedEnvString = environment
+      .map((env) => convertToString(env))
+      .join("\n");
+
+    await fs.writeFile(path, updatedEnvString);
   } catch (err) {
     console.log(err);
   }
 }
 
-// try {
-//   const test = await updateTokenInEnvironment([
-//     { key: "ODFL_SESSION_TOKEN", value: "xxx" },
-//     { key: "ODFL_SESSION_TOKEN_EXPIRY", value: "678" },
-//   ]);
-//   console.log(test);
-// } catch (err) {
-//   console.log(err);
-// }
+function convertToString(environmentVar: EnvironmentVariable) {
+  return `${environmentVar.key}=${environmentVar.value.toString()}`;
+}
