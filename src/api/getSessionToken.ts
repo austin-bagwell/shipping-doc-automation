@@ -30,6 +30,7 @@ async function freshenODSessionToken() {
     console.log("getODSessionTokenExiration true in makeBol");
     const freshToken = await refreshToken("ODFL");
     token = freshToken?.sessionToken;
+    // fs.writeFile() to update OD .env stuff I guess
   } else {
     token = process.env.ODFL_SESSION_TOKEN;
   }
@@ -129,3 +130,47 @@ async function getEnvironmentVariables(): Promise<Array<EnvironmentVariable>> {
   });
   return environment;
 }
+
+export async function updateTokenInEnvironment(
+  tokenDetails: Array<EnvironmentVariable>
+) {
+  const path = "/Users/austin/projects/ltl-automation/.env";
+  try {
+    const envFile = await fs.readFile(path, {
+      encoding: "utf8",
+    });
+
+    const environment = await getEnvironmentVariables();
+    const tokenDetailsKeys = tokenDetails.map((token) => token.key);
+
+    // this works
+    // still need to convert all this shiz to a string
+    // and then fs.writeFile to .env
+    // shoooooo
+    const updated = tokenDetails.forEach((envVariable) => {
+      const toUpdate = environment.find((env) => {
+        // console.log("env.key");
+        // console.log(env.key);
+        // console.log("envVariable.key");
+        // console.log(envVariable.key);
+        return env.key === envVariable.key;
+      });
+
+      const idx = environment.findIndex((env) => env.key === toUpdate?.key);
+      Object.assign(environment[idx], envVariable);
+    });
+    console.log(environment);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// try {
+//   const test = await updateTokenInEnvironment([
+//     { key: "ODFL_SESSION_TOKEN", value: "xxx" },
+//     { key: "ODFL_SESSION_TOKEN_EXPIRY", value: "678" },
+//   ]);
+//   console.log(test);
+// } catch (err) {
+//   console.log(err);
+// }
