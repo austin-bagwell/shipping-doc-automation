@@ -17,24 +17,24 @@ type ODResponses = ODMakeBol200Response | ODMakeBol400Response | any;
 
 async function main() {
   try {
-    const test = await updateTokenInEnvironment([
-      { key: "ODFL_SESSION_TOKEN", value: "xxx" },
-      { key: "ODFL_SESSION_TOKEN_EXPIRY", value: "678" },
-    ]);
-    console.log(test);
-    // const response = await makeBolRequest();
+    // const test = await updateTokenInEnvironment([
+    //   { key: "ODFL_SESSION_TOKEN", value: "xxx" },
+    //   { key: "ODFL_SESSION_TOKEN_EXPIRY", value: "678" },
+    // ]);
+    // console.log(test);
+    const response = await makeBolRequest();
 
-    // if (!response.success) {
-    //   // const errors: ODMakeBol400Response = handleError(response);
-    //   // const err = await handleError(errors);
-    //   console.log("request failed: ");
-    //   console.log(response);
-    // }
+    if (!response.success) {
+      // const errors: ODMakeBol400Response = handleError(response);
+      // const err = await handleError(errors);
+      console.log("request failed: ");
+      console.log(response);
+    }
 
-    // console.log(
-    //   `Request worked:  \nPRO#${response.proNumber?.toString()} created.`
-    // );
-    // return response;
+    console.log(
+      `Request worked:  \nPRO#${response.proNumber?.toString()} created.`
+    );
+    return response;
 
     /*
     const pathToCsv = rl.question("enter path to csv")

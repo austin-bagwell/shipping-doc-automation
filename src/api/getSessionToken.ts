@@ -23,6 +23,7 @@ export async function getFreshSessionToken(carrier: string) {
 async function freshenODSessionToken() {
   let token;
   const existingTokenExpiration = process.env.ODFL_SESSION_TOKEN_EXPIRY;
+
   if (
     existingTokenExpiration &&
     Number.parseInt(existingTokenExpiration) * 1000 < new Date().getTime()
@@ -30,7 +31,18 @@ async function freshenODSessionToken() {
     console.log("getODSessionTokenExiration true in makeBol");
     const freshToken = await refreshToken("ODFL");
     token = freshToken?.sessionToken;
-    // fs.writeFile() to update OD .env stuff I guess
+
+    const envToken = {
+      key: "ODFL_SESSION_TOKEN",
+      value: `${token}`,
+    };
+
+    const envExpiry = {
+      key: "ODFL_SESSION_TOKEN_EXPIRY",
+      value: `${freshToken?.expiration}`,
+    };
+
+    await updateTokenInEnvironment([envToken, envExpiry]);
   } else {
     token = process.env.ODFL_SESSION_TOKEN;
   }
@@ -134,13 +146,13 @@ async function getEnvironmentVariables(): Promise<Array<EnvironmentVariable>> {
 // works, but maybe smelly?
 // once again, hard coded path is not the way but hey...
 export async function updateTokenInEnvironment(
-  tokenDetails: Array<EnvironmentVariable>
+  variableToUpdate: Array<EnvironmentVariable>
 ) {
   const path = "/Users/austin/projects/ltl-automation/.env";
   try {
     const environment = await getEnvironmentVariables();
 
-    tokenDetails.forEach((envVariable) => {
+    variableToUpdate.forEach((envVariable) => {
       const toUpdate = environment.find((env) => {
         return env.key === envVariable.key;
       });
